@@ -1,6 +1,36 @@
 import React from 'react';
 
 const AddCoffee = () => {
+
+    const handleAddCoffee = e => {
+        e.preventDefault();
+
+        const name = e.target.name.value;
+        const chef = e.target.chef.value;
+        const supplier = e.target.supplier.value;
+        const taste = e.target.taste.value;
+        const category = e.target.category.value;
+        const details = e.target.details.value;
+        const photo = e.target.photo.value;
+
+        const newCoffee = { name, chef, supplier, taste, category, details, photo }
+        console.log(newCoffee)
+
+        // send data to the server and database
+        fetch('http://localhost:5000/coffee', {
+            method: 'POST', 
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newCoffee)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('response from server', data)
+            })
+
+    }
+
     return (
         <div className='lg:w-3/4 mx-auto'>
             <div className="text-center p-10">
@@ -11,7 +41,7 @@ const AddCoffee = () => {
                 </p>
             </div>
             <div className="card bg-base-100 w-full shrink-0 shadow-2xl">
-                <form className="card-body">
+                <form onSubmit={handleAddCoffee} className="card-body">
                     {/* form first row */}
                     <div className='flex flex-col lg:flex-row gap-5'>
                         <div className="form-control flex-1">
@@ -64,7 +94,7 @@ const AddCoffee = () => {
                             <span className="label-text">Photo URL</span>
                         </label>
                         <input type="text" name='photo' placeholder="Photo url" className="input input-bordered" required />
-                        
+
                     </div>
                     <div className="form-control mt-6">
                         <button className="btn btn-primary">Add Coffee</button>
