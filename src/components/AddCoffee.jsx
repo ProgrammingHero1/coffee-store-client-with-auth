@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2'
 
 const AddCoffee = () => {
 
@@ -18,7 +19,7 @@ const AddCoffee = () => {
 
         // send data to the server and database
         fetch('http://localhost:5000/coffee', {
-            method: 'POST', 
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
@@ -26,7 +27,16 @@ const AddCoffee = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('response from server', data)
+                if (data.insertedId) {
+                    console.log('successfully added');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Coffee added successfully',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });
+                    e.target.reset();
+                }
             })
 
     }
