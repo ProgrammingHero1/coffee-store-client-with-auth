@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import Coffee from './Coffee';
 
 const Home = () => {
 
     const coffees = useLoaderData();
-    console.log(coffees);
+
+    // better use tanstack query or similar packages
+    const [loadedCoffees, setLoadedCoffees] = useState(coffees);
+
     return (
         <div>
-            <h2>Welcome Coffee home: {coffees.length}</h2>
+            <h2>Welcome Coffee home: {loadedCoffees.length}</h2>
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
                 {
-                    coffees.map(coffee => <Coffee coffee ={coffee} key={coffee._id}></Coffee>)
+                    loadedCoffees.map(coffee => <Coffee
+                        coffee={coffee}
+                        loadedCoffees={loadedCoffees}
+                        setLoadedCoffees={setLoadedCoffees}
+                        key={coffee._id}
+                    ></Coffee>)
                 }
             </div>
         </div>

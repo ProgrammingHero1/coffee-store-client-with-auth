@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const Coffee = ({ coffee }) => {
+const Coffee = ({ coffee, loadedCoffees, setLoadedCoffees }) => {
 
     const { _id, name, chef, taste, photo } = coffee;
 
@@ -30,6 +30,11 @@ const Coffee = ({ coffee }) => {
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             });
+
+                            // update the loaded coffee state
+                            const remainingCoffees = loadedCoffees.filter(coffee => coffee._id !== _id);
+                            setLoadedCoffees(remainingCoffees);
+
                         }
                     })
 
