@@ -21,7 +21,7 @@ const Users = () => {
 
 
                 // delete from the database
-                fetch(`http://localhost:5000/users/${id}`, {
+                fetch(`https://coffee-store-server-delta-sage.vercel.app/users/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

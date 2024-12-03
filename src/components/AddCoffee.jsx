@@ -18,7 +18,7 @@ const AddCoffee = () => {
         console.log(newCoffee)
 
         // send data to the server and database
-        fetch('http://localhost:5000/coffee', {
+        fetch('https://coffee-store-server-delta-sage.vercel.app/coffee', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
