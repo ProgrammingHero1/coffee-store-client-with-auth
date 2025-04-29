@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { use } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 const SignIn = () => {
+    const { signInUser } = use(AuthContext);
 
-    const handleSignIn = e =>{
+    const handleSignIn = e => {
         e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password);
+
+        // firebase sign in send 
+        signInUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                const singInInfo = {
+                    email,
+                    lastSignInTime: result.user?.metadata?.lastSignInTime
+                }
+                // update last sign in to the database
+                fetch('http://localhost:3000/users', {
+                    method: 'PATCH', 
+                    headers: {
+                        'content-type': 'application/json'
+                    }, 
+                    body: JSON.stringify(singInInfo)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('after update patch', data)
+                    })
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -11,7 +43,7 @@ const SignIn = () => {
             <div className="card-body">
                 <h1 className="text-5xl font-bold">Sign In now!</h1>
                 <form onSubmit={handleSignIn} className="fieldset">
-                    
+
                     <label className="label">Email</label>
                     <input type="email" name="email" className="input" placeholder="Email" />
                     <label className="label">Password</label>
